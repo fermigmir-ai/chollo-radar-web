@@ -1,0 +1,10 @@
+CHOLLO RADAR WEB V2
+Sustituye los archivos actuales del repositorio público por el contenido de esta carpeta.
+IMPORTANTE: sube también la carpeta articulos completa.
+Estructura final:
+index.html
+legal.html
+styles.css
+articulos/ (10 HTML)
+.nojekyll (opcional)
+No actives todavía enlaces de afiliado: la declaración específica de Amazon se añadirá cuando la cuenta esté registrada/activa.
