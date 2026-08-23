@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fermigmir-ai.github.io/chollo-radar-web/sitemap.xml
