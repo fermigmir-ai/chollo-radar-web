@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chollo-radar-bot"
+version = "0.2.0"
+description = "Bot de ofertas y afiliación para Chollo Radar"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Chollo Radar"}]
+dependencies = []
+
+[project.scripts]
+chollo-radar = "chollo_radar.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

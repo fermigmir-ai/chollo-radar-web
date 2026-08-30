@@ -1,0 +1,45 @@
+[
+  {
+    "product_id": "DEMO-AUDIO-001",
+    "title": "Auriculares Bluetooth Pro con cancelación de ruido",
+    "url": "https://example.com/oferta-audio",
+    "image_url": "",
+    "current_price": 69.99,
+    "reference_price": 119.99,
+    "discount_percent": 42,
+    "currency": "EUR",
+    "merchant": "Tienda Demo",
+    "category": "Electronics",
+    "deal_type": "LIMITED_TIME_DEAL",
+    "is_buy_box": true
+  },
+  {
+    "product_id": "DEMO-HOME-001",
+    "title": "Cafetera automática compacta",
+    "url": "https://example.com/oferta-cafetera",
+    "image_url": "",
+    "current_price": 199.0,
+    "reference_price": 299.0,
+    "discount_percent": 33,
+    "currency": "EUR",
+    "merchant": "Tienda Demo",
+    "category": "HomeAndKitchen",
+    "deal_type": "DEAL",
+    "is_buy_box": true
+  },
+  {
+    "product_id": "DEMO-LOW-001",
+    "title": "Producto con descuento insuficiente",
+    "url": "https://example.com/oferta-descartada",
+    "image_url": "",
+    "current_price": 47.0,
+    "reference_price": 50.0,
+    "discount_percent": 6,
+    "currency": "EUR",
+    "merchant": "Tienda Demo",
+    "category": "All",
+    "deal_type": "",
+    "is_buy_box": false
+  }
+]
+
