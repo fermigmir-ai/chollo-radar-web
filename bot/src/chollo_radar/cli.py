@@ -7,7 +7,13 @@ import sys
 import time
 from pathlib import Path
 
+from .bootstrap import (
+    load_campaign,
+    publish_next_article,
+    publish_telegram_recommendation,
+)
 from .config import AppConfig, load_config, load_dotenv
+from .models import RunSummary
 from .pipeline import run_once
 from .providers import AmazonCreatorsProvider, DemoProvider
 from .publishers import ConsolePublisher, TelegramPublisher
@@ -18,9 +24,22 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Chollo Radar Bot")
     parser.add_argument(
         "command",
-        choices={"once", "run", "status", "test-telegram", "check-config"},
+        choices={
+            "once",
+            "run",
+            "status",
+            "test-telegram",
+            "check-config",
+            "bootstrap",
+        },
     )
     parser.add_argument("--config", default="config.json")
+    parser.add_argument("--campaign", default="data/bootstrap_campaign.json")
+    parser.add_argument("--site-root", default="..")
+    parser.add_argument("--state", default=".chollo-radar-campaign.json")
+    parser.add_argument("--force-article", action="store_true")
+    parser.add_argument("--skip-site", action="store_true")
+    parser.add_argument("--skip-telegram", action="store_true")
     return parser
 
 
@@ -85,11 +104,86 @@ def _run_cycle(config: AppConfig) -> int:
         storage.close()
 
 
+def _run_bootstrap(config: AppConfig, args) -> int:
+    if args.skip_site and args.skip_telegram:
+        raise ValueError("No se puede omitir a la vez la web y Telegram")
+    campaign = load_campaign(Path(args.campaign))
+    storage = create_storage(config.database_path)
+    run_id = ""
+    try:
+        run_id = storage.start_run("bootstrap", config.dry_run)
+        article_slug = ""
+        article_written = False
+        if not args.skip_site:
+            article_slug, article_written = publish_next_article(
+                campaign,
+                Path(args.site_root),
+                Path(args.state),
+                dry_run=config.dry_run,
+                force=args.force_article,
+            )
+            if article_slug:
+                action = "previsualizado" if config.dry_run else "generado"
+                print(f"Artículo {action}: {article_slug}")
+            else:
+                print("Artículo: no corresponde publicar uno nuevo todavía")
+
+        telegram_product_id = ""
+        telegram_result = None
+        skipped = 0
+        if not args.skip_telegram:
+            telegram_product_id, telegram_result, skipped = (
+                publish_telegram_recommendation(
+                    campaign,
+                    storage,
+                    ConsolePublisher() if config.dry_run else _telegram(),
+                    dry_run=config.dry_run,
+                )
+            )
+            if telegram_product_id:
+                action = (
+                    "previsualizado"
+                    if config.dry_run or not telegram_result.delivered
+                    else "publicado"
+                )
+                print(f"Telegram {action}: {telegram_product_id}")
+            else:
+                print("Telegram: todos los productos están en periodo de descanso")
+
+        delivered = int(article_written) + int(
+            bool(telegram_result and telegram_result.delivered)
+        )
+        previewed = int(bool(config.dry_run and article_slug)) + int(
+            bool(config.dry_run and telegram_product_id)
+        )
+        summary = RunSummary(
+            queries=0,
+            fetched=len(campaign.products),
+            eligible=int(bool(article_slug)) + int(bool(telegram_product_id)),
+            published=delivered,
+            skipped_recent=skipped,
+            previewed=previewed,
+        )
+        storage.finish_run(run_id, summary)
+        _print_summary(summary)
+        return 0
+    except Exception as exc:
+        try:
+            storage.finish_run(run_id, None, str(exc))
+        except Exception as log_exc:
+            print(f"ERROR al registrar la campaña: {log_exc}", file=sys.stderr)
+        raise
+    finally:
+        storage.close()
+
+
 def main(argv: list[str] | None = None) -> int:
     load_dotenv()
     args = _parser().parse_args(argv)
     try:
         config = load_config(Path(args.config))
+        if args.command == "bootstrap":
+            return _run_bootstrap(config, args)
         if args.command == "check-config":
             _provider(config)
             if not config.dry_run:

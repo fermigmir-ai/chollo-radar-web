@@ -30,6 +30,7 @@ th,td{text-align:left;padding:14px;border-bottom:1px solid #273550;vertical-alig
 th{color:#dce7ff;background:#111c31}.pill{display:inline-block;border:1px solid #3e5476;padding:4px 9px;border-radius:999px;font-size:.78rem;color:#c7d7f7}
 .product{overflow:hidden;margin:34px 0}
 .product-media{display:grid;grid-template-columns:43% 57%;align-items:stretch}
+.product-media.no-image{grid-template-columns:1fr}
 .product-media img{width:100%;height:100%;min-height:340px;object-fit:cover;background:#fff}
 .product-body{padding:30px}.product-body h2{margin:4px 0 5px}.product-body ul{color:#ced7e6}
 .product .source{font-size:.78rem;color:#8393af;margin-top:8px}
@@ -38,6 +39,7 @@ th{color:#dce7ff;background:#111c31}.pill{display:inline-block;border:1px solid 
 .procon strong{display:block;margin-bottom:5px}.cta-note{font-size:.82rem;color:#aab7ca;margin-top:9px}
 .faq details{padding:15px 18px;margin:10px 0}.faq summary{font-weight:800;cursor:pointer}
 .notice{padding:22px}.notice p{color:#c6d0e0}
+.checklist{padding:18px 24px}.checklist li{margin:8px 0;color:#d7deeb}
 .footer-disclosure{max-width:800px;font-size:.86rem}
 footer{border-top:1px solid #1f2b44;padding:30px 0;color:#93a1b8;margin-top:60px}footer .wrap{display:flex;justify-content:space-between;gap:24px}
 .legal{width:min(800px,91%);margin:60px auto}.legal h2{margin-top:36px}

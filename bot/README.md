@@ -21,6 +21,8 @@ para Amazon España mediante **Amazon Creators API**.
   de un ordenador encendido.
 - Comparte catálogo, histórico, deduplicación y registro de ejecuciones en
   Supabase.
+- Incluye una campaña puente que genera guías SEO y rota recomendaciones con
+  enlaces afiliados mientras la cuenta todavía no tiene acceso a Creators API.
 
 ## Limitación importante de Amazon
 
@@ -36,6 +38,45 @@ Creators API hay que:
 
 Hasta cumplir el requisito, el proyecto se puede probar en modo demo y usar la
 misma canalización con un feed autorizado de otra red de afiliación.
+
+## Campaña puente para conseguir las 10 ventas
+
+El comando `bootstrap` no necesita `AMAZON_CLIENT_ID`,
+`AMAZON_CLIENT_SECRET` ni `AMAZON_PARTNER_TAG`. Trabaja exclusivamente con los
+enlaces cortos de afiliado creados previamente en Amazon Afiliados y guardados
+en `data/bootstrap_campaign.json`.
+
+La campaña:
+
+- genera una guía editorial nueva cada 48 horas hasta completar el calendario;
+- añade automáticamente cada guía a la portada y al sitemap;
+- rota dos recomendaciones diarias en Telegram;
+- evita repetir un producto durante 72 horas mediante Supabase;
+- nunca copia precios ni porcentajes no verificados;
+- identifica todos los enlaces remunerados con `#ad` y el aviso de afiliación;
+- funciona sin scraping y sin acceso al catálogo de Amazon.
+
+Previsualización local, sin modificar la web ni enviar mensajes:
+
+```bash
+DRY_RUN=true chollo-radar bootstrap --site-root ..
+```
+
+La automatización está en `.github/workflows/bootstrap-content.yml`. Para
+habilitarla crea estas variables de GitHub Actions:
+
+| Variable | Valor inicial | Efecto |
+|---|---|---|
+| `CHOLLO_RADAR_BOOTSTRAP_ENABLED` | `true` | Habilita las dos ejecuciones diarias |
+| `CHOLLO_RADAR_BOOTSTRAP_DRY_RUN` | `true` | Previsualiza sin publicar ni modificar la web |
+
+Solo necesita los secretos `SUPABASE_SECRET_KEY`, `TELEGRAM_BOT_TOKEN` y
+`TELEGRAM_CHAT_ID` en el entorno `chollo-radar-production`. Después de validar
+una ejecución manual, cambia `CHOLLO_RADAR_BOOTSTRAP_DRY_RUN` a `false`.
+
+El archivo `.chollo-radar-campaign.json` registra las guías ya publicadas. Al
+agotarse el calendario, el bot seguirá rotando recomendaciones en Telegram y
+dejará de crear páginas hasta que se añadan productos y temas nuevos.
 
 ## Inicio rápido en modo demostración
 
@@ -138,6 +179,7 @@ No pegues estas credenciales en archivos, commits, incidencias ni mensajes.
 |---|---|---|
 | `CHOLLO_RADAR_ENABLED` | `true` | Habilita los ciclos manuales y programados |
 | `CHOLLO_RADAR_DRY_RUN` | `true` | Analiza y registra, pero no envía mensajes |
+| `CHOLLO_RADAR_MODE` | `amazon` | Habilita esta fase solo cuando existan credenciales de Creators API |
 
 Ejecuta manualmente el workflow **Chollo Radar Bot** y revisa en Supabase la
 tabla `bot_runs`. Cuando el resultado sea correcto, cambia
@@ -174,6 +216,8 @@ de cada ejecución.
 - `chollo-radar status`: muestra estado y últimas publicaciones.
 - `chollo-radar test-telegram`: manda un mensaje de prueba.
 - `chollo-radar check-config`: valida la configuración.
+- `chollo-radar bootstrap --site-root ..`: ejecuta la campaña previa a
+  Creators API.
 
 Todos aceptan `--config ruta/al/config.json`.
 
