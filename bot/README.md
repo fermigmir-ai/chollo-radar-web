@@ -62,17 +62,18 @@ Previsualización local, sin modificar la web ni enviar mensajes:
 DRY_RUN=true chollo-radar bootstrap --site-root ..
 ```
 
-La automatización está en `.github/workflows/bootstrap-content.yml`. Para
-habilitarla crea estas variables de GitHub Actions:
+La automatización está en `.github/workflows/bootstrap-content.yml` y queda
+habilitada en modo real por defecto. Estas variables de GitHub Actions son
+opcionales y sirven para pausarla o previsualizarla:
 
 | Variable | Valor inicial | Efecto |
 |---|---|---|
-| `CHOLLO_RADAR_BOOTSTRAP_ENABLED` | `true` | Habilita las dos ejecuciones diarias |
+| `CHOLLO_RADAR_BOOTSTRAP_ENABLED` | `false` | Pausa las dos ejecuciones diarias |
 | `CHOLLO_RADAR_BOOTSTRAP_DRY_RUN` | `true` | Previsualiza sin publicar ni modificar la web |
 
 Solo necesita los secretos `SUPABASE_SECRET_KEY`, `TELEGRAM_BOT_TOKEN` y
-`TELEGRAM_CHAT_ID` en el entorno `chollo-radar-production`. Después de validar
-una ejecución manual, cambia `CHOLLO_RADAR_BOOTSTRAP_DRY_RUN` a `false`.
+`TELEGRAM_CHAT_ID` en el entorno `chollo-radar-production`. Si falta alguno, la
+ejecución se detiene sin publicar ni guardar cambios parciales.
 
 El archivo `.chollo-radar-campaign.json` registra las guías ya publicadas. Al
 agotarse el calendario, el bot seguirá rotando recomendaciones en Telegram y
