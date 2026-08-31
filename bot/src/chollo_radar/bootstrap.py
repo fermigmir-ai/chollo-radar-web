@@ -187,13 +187,41 @@ def format_bootstrap_message(
     )
 
 
-def publish_telegram_recommendation(
+def format_x_message(
+    product: BootstrapProduct,
+    campaign: BootstrapCampaign,
+) -> str:
+    guide_url = (
+        f"{campaign.site_base_url}/{product.guide_path.lstrip('/')}"
+        if product.guide_path
+        else campaign.site_base_url
+    )
+    title = product.title[:72].rstrip()
+    best_for = product.best_for[:72].rstrip()
+    message = "\n".join(
+        [
+            f"🎯 {title}",
+            f"Ideal para: {best_for}.",
+            "",
+            f"Guía: {guide_url}",
+            f"Ver precio: {product.affiliate_url}",
+            "",
+            "#ad #CholloRadar",
+        ]
+    )
+    if len(message) > 280:
+        raise ValueError(
+            f"El mensaje de X para {product.product_id} supera 280 caracteres"
+        )
+    return message
+
+
+def select_recommendation(
     campaign: BootstrapCampaign,
     storage: StorageBackend,
-    publisher,
     *,
     dry_run: bool,
-) -> tuple[str, PublishResult | None, int]:
+) -> tuple[BootstrapProduct | None, int]:
     skipped = 0
     for product in campaign.products:
         offer = product.as_offer()
@@ -204,18 +232,51 @@ def publish_telegram_recommendation(
         ):
             skipped += 1
             continue
-        message = format_bootstrap_message(product, campaign)
-        result = publisher.publish_text(message, channel="telegram-bootstrap")
-        if result.delivered:
-            storage.record_publication(
-                offer,
-                score=0,
-                channel=result.channel,
-                message=result.message,
-                external_message_id=result.external_message_id,
-            )
-        return product.product_id, result, skipped
-    return "", None, skipped
+        return product, skipped
+    return None, skipped
+
+
+def publish_selected_recommendation(
+    product: BootstrapProduct,
+    storage: StorageBackend,
+    publisher,
+    message: str,
+    *,
+    channel: str,
+) -> PublishResult:
+    offer = product.as_offer()
+    result = publisher.publish_text(message, channel=channel)
+    if result.delivered:
+        storage.record_publication(
+            offer,
+            score=0,
+            channel=result.channel,
+            message=result.message,
+            external_message_id=result.external_message_id,
+        )
+    return result
+
+
+def publish_telegram_recommendation(
+    campaign: BootstrapCampaign,
+    storage: StorageBackend,
+    publisher,
+    *,
+    dry_run: bool,
+) -> tuple[str, PublishResult | None, int]:
+    product, skipped = select_recommendation(
+        campaign, storage, dry_run=dry_run
+    )
+    if not product:
+        return "", None, skipped
+    result = publish_selected_recommendation(
+        product,
+        storage,
+        publisher,
+        format_bootstrap_message(product, campaign),
+        channel="telegram-bootstrap",
+    )
+    return product.product_id, result, skipped
 
 
 def publish_next_article(

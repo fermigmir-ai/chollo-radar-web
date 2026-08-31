@@ -8,15 +8,18 @@ import time
 from pathlib import Path
 
 from .bootstrap import (
+    format_bootstrap_message,
+    format_x_message,
     load_campaign,
     publish_next_article,
-    publish_telegram_recommendation,
+    publish_selected_recommendation,
+    select_recommendation,
 )
 from .config import AppConfig, load_config, load_dotenv
 from .models import RunSummary
 from .pipeline import run_once
 from .providers import AmazonCreatorsProvider, DemoProvider
-from .publishers import ConsolePublisher, TelegramPublisher
+from .publishers import ConsolePublisher, TelegramPublisher, XPublisher
 from .storage import create_storage
 
 
@@ -29,6 +32,7 @@ def _parser() -> argparse.ArgumentParser:
             "run",
             "status",
             "test-telegram",
+            "test-x",
             "check-config",
             "bootstrap",
         },
@@ -40,6 +44,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--force-article", action="store_true")
     parser.add_argument("--skip-site", action="store_true")
     parser.add_argument("--skip-telegram", action="store_true")
+    parser.add_argument("--skip-x", action="store_true")
     return parser
 
 
@@ -54,6 +59,30 @@ def _telegram() -> TelegramPublisher:
         os.getenv("TELEGRAM_BOT_TOKEN", "").strip(),
         os.getenv("TELEGRAM_CHAT_ID", "").strip(),
     )
+
+
+def _x_optional() -> XPublisher | None:
+    values = {
+        "api_key": os.getenv("X_API_KEY", "").strip(),
+        "api_secret": os.getenv("X_API_SECRET", "").strip(),
+        "access_token": os.getenv("X_ACCESS_TOKEN", "").strip(),
+        "access_token_secret": os.getenv("X_ACCESS_TOKEN_SECRET", "").strip(),
+    }
+    if not any(values.values()):
+        return None
+    if not all(values.values()):
+        raise ValueError(
+            "Configura juntos X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN y "
+            "X_ACCESS_TOKEN_SECRET"
+        )
+    return XPublisher(**values)
+
+
+def _x_required() -> XPublisher:
+    publisher = _x_optional()
+    if not publisher:
+        raise ValueError("Faltan las cuatro credenciales de X")
+    return publisher
 
 
 def _publisher(config: AppConfig):
@@ -105,9 +134,10 @@ def _run_cycle(config: AppConfig) -> int:
 
 
 def _run_bootstrap(config: AppConfig, args) -> int:
-    if args.skip_site and args.skip_telegram:
-        raise ValueError("No se puede omitir a la vez la web y Telegram")
     campaign = load_campaign(Path(args.campaign))
+    x_publisher = None if args.skip_x else _x_optional()
+    if args.skip_site and args.skip_telegram and not x_publisher:
+        raise ValueError("No queda ningún destino activo: web, Telegram o X")
     storage = create_storage(config.database_path)
     run_id = ""
     try:
@@ -128,41 +158,79 @@ def _run_bootstrap(config: AppConfig, args) -> int:
             else:
                 print("Artículo: no corresponde publicar uno nuevo todavía")
 
-        telegram_product_id = ""
+        recommendation = None
+        recommendation_id = ""
         telegram_result = None
+        x_result = None
         skipped = 0
+        channel_errors = []
+        if not args.skip_telegram or x_publisher:
+            recommendation, skipped = select_recommendation(
+                campaign, storage, dry_run=config.dry_run
+            )
+            recommendation_id = (
+                recommendation.product_id if recommendation else ""
+            )
+
         if not args.skip_telegram:
-            telegram_product_id, telegram_result, skipped = (
-                publish_telegram_recommendation(
-                    campaign,
+            if recommendation:
+                telegram_result = publish_selected_recommendation(
+                    recommendation,
                     storage,
                     ConsolePublisher() if config.dry_run else _telegram(),
-                    dry_run=config.dry_run,
+                    format_bootstrap_message(recommendation, campaign),
+                    channel="telegram-bootstrap",
                 )
-            )
-            if telegram_product_id:
                 action = (
                     "previsualizado"
                     if config.dry_run or not telegram_result.delivered
                     else "publicado"
                 )
-                print(f"Telegram {action}: {telegram_product_id}")
+                print(f"Telegram {action}: {recommendation_id}")
             else:
                 print("Telegram: todos los productos están en periodo de descanso")
 
+        if x_publisher:
+            if recommendation:
+                try:
+                    x_result = publish_selected_recommendation(
+                        recommendation,
+                        storage,
+                        ConsolePublisher() if config.dry_run else x_publisher,
+                        format_x_message(recommendation, campaign),
+                        channel="x-bootstrap",
+                    )
+                    action = (
+                        "previsualizado"
+                        if config.dry_run or not x_result.delivered
+                        else "publicado"
+                    )
+                    print(f"X {action}: {recommendation_id}")
+                except Exception as exc:
+                    error = f"X: {exc}"
+                    channel_errors.append(error)
+                    print(f"ERROR: {error}", file=sys.stderr)
+            else:
+                print("X: todos los productos están en periodo de descanso")
+        elif not args.skip_x:
+            print("X: no configurado; Telegram continúa con normalidad")
+
         delivered = int(article_written) + int(
             bool(telegram_result and telegram_result.delivered)
-        )
+        ) + int(bool(x_result and x_result.delivered))
         previewed = int(bool(config.dry_run and article_slug)) + int(
-            bool(config.dry_run and telegram_product_id)
+            bool(config.dry_run and recommendation_id and not args.skip_telegram)
+        ) + int(
+            bool(config.dry_run and recommendation_id and x_publisher)
         )
         summary = RunSummary(
             queries=0,
             fetched=len(campaign.products),
-            eligible=int(bool(article_slug)) + int(bool(telegram_product_id)),
+            eligible=int(bool(article_slug)) + int(bool(recommendation_id)),
             published=delivered,
             skipped_recent=skipped,
             previewed=previewed,
+            errors=tuple(channel_errors),
         )
         storage.finish_run(run_id, summary)
         _print_summary(summary)
@@ -201,6 +269,10 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "test-telegram":
             _telegram().send_test()
             print("Mensaje de prueba enviado.")
+            return 0
+        if args.command == "test-x":
+            result = _x_required().send_test()
+            print(f"Publicación de prueba enviada a X: {result.external_message_id}")
             return 0
         if args.command == "status":
             storage = create_storage(config.database_path)

@@ -9,6 +9,7 @@ from chollo_radar.bootstrap import (
     AUTO_SITEMAP_END,
     AUTO_SITEMAP_START,
     format_bootstrap_message,
+    format_x_message,
     load_campaign,
     publish_next_article,
     publish_telegram_recommendation,
@@ -46,7 +47,11 @@ class FakePublisher:
 
 class BootstrapTests(unittest.TestCase):
     def setUp(self):
-        campaign_path = Path(__file__).resolve().parents[1] / "data" / "bootstrap_campaign.json"
+        campaign_path = (
+            Path(__file__).resolve().parents[1]
+            / "data"
+            / "bootstrap_campaign.json"
+        )
         self.campaign = load_campaign(campaign_path)
         self.now = datetime(2026, 8, 30, 10, 0, tzinfo=timezone.utc)
 
@@ -69,6 +74,16 @@ class BootstrapTests(unittest.TestCase):
         self.assertIn("#ad", message)
         self.assertIn("Ver precio actual", message)
         self.assertNotIn("€", message)
+
+    def test_x_message_is_short_and_uses_affiliate_link(self):
+        for product in self.campaign.products:
+            with self.subTest(product=product.product_id):
+                message = format_x_message(product, self.campaign)
+                self.assertLessEqual(len(message), 280)
+                self.assertIn(product.affiliate_url, message)
+                self.assertIn("#ad", message)
+                self.assertIn("#CholloRadar", message)
+                self.assertNotIn("€", message)
 
     def test_site_preview_does_not_write(self):
         with tempfile.TemporaryDirectory() as directory:
