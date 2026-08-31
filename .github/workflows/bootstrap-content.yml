@@ -56,7 +56,7 @@ jobs:
   campaign:
     if: >-
       (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') &&
-      vars.CHOLLO_RADAR_BOOTSTRAP_ENABLED == 'true'
+      vars.CHOLLO_RADAR_BOOTSTRAP_ENABLED != 'false'
     needs: validate
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -67,7 +67,7 @@ jobs:
       run:
         working-directory: bot
     env:
-      DRY_RUN: "${{ vars.CHOLLO_RADAR_BOOTSTRAP_DRY_RUN || 'true' }}"
+      DRY_RUN: "${{ vars.CHOLLO_RADAR_BOOTSTRAP_DRY_RUN || 'false' }}"
       SUPABASE_URL: "https://jokkwdhlvbkwegcuezyi.supabase.co"
       SUPABASE_SECRET_KEY: "${{ secrets.SUPABASE_SECRET_KEY }}"
       TELEGRAM_BOT_TOKEN: "${{ secrets.TELEGRAM_BOT_TOKEN }}"
@@ -100,4 +100,3 @@ jobs:
             git commit -m "Publicar nueva guía de Chollo Radar"
             git push origin HEAD:main
           fi
-
