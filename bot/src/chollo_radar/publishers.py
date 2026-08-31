@@ -47,6 +47,14 @@ class ConsolePublisher:
             message=message,
         )
 
+    def publish_text(
+        self, message: str, channel: str = "console-dry-run"
+    ) -> PublishResult:
+        print("\n" + "=" * 72)
+        print(message)
+        print("=" * 72)
+        return PublishResult(channel=channel, delivered=False, message=message)
+
 
 class TelegramPublisher:
     def __init__(self, token: str, chat_id: str, timeout: int = 20):
@@ -123,4 +131,24 @@ class TelegramPublisher:
                 response.get("result", {}).get("message_id", "")
             ),
             message=text,
+        )
+
+    def publish_text(
+        self, message: str, channel: str = "telegram"
+    ) -> PublishResult:
+        response = self._post(
+            "sendMessage",
+            {
+                "chat_id": self.chat_id,
+                "text": message,
+                "disable_web_page_preview": False,
+            },
+        )
+        return PublishResult(
+            channel=channel,
+            delivered=True,
+            external_message_id=str(
+                response.get("result", {}).get("message_id", "")
+            ),
+            message=message,
         )

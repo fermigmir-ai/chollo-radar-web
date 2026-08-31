@@ -1,0 +1,212 @@
+{
+  "site_base_url": "https://fermigmir-ai.github.io/chollo-radar-web",
+  "disclosure": "En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables.",
+  "article_interval_hours": 48,
+  "telegram_cooldown_hours": 72,
+  "products": [
+    {
+      "id": "soundcore-q30",
+      "title": "Soundcore Q30",
+      "affiliate_url": "https://amzn.to/3UhEiwg",
+      "image_url": "https://cdn.shopify.com/s/files/1/0733/1171/5555/files/3_b2bcbb5b-427d-4e49-891d-baecadfdbe5e_3840x.jpg?v=1747101282",
+      "image_source_url": "https://www.soundcore.com/es/products/a3028011",
+      "category": "Auriculares",
+      "best_for": "calidad-precio y uso diario",
+      "summary": "Una alternativa equilibrada para quien quiere cancelación activa, mucha autonomía y ecualización por aplicación sin saltar a la gama premium.",
+      "specs": ["ANC híbrido", "Hasta 40 h con ANC", "Bluetooth y AUX", "260 g"],
+      "pros": ["Autonomía muy competitiva", "Ecualización y conexión multipunto", "Buena relación entre funciones y coste"],
+      "considerations": ["Construcción menos premium", "Los micrófonos no son su punto más fuerte"],
+      "guide_path": "articulos/mejores-auriculares-bluetooth-anc-2026.html#p1"
+    },
+    {
+      "id": "sony-wh-ch720n",
+      "title": "Sony WH-CH720N",
+      "affiliate_url": "https://amzn.to/4gudfW2",
+      "image_url": "https://sony.scene7.com/is/image/sonyglobalsolutions/WH-CH720N_Stay_Comfortable_M?%24largeImageMobile%24=&fmt=png-alpha",
+      "image_source_url": "https://www.sony.es/headphones/products/wh-ch720n",
+      "category": "Auriculares",
+      "best_for": "comodidad, trabajo y estudio",
+      "summary": "Destacan por su poco peso y una experiencia sencilla para jornadas largas, videollamadas, estudio o desplazamientos cotidianos.",
+      "specs": ["Noise Cancelling", "35 h con NC", "Bluetooth 5.2", "192 g"],
+      "pros": ["Muy ligeros", "Buena autonomía", "Conexión multipunto y aplicación de Sony"],
+      "considerations": ["Acabado principalmente plástico", "No incorporan LDAC"],
+      "guide_path": "articulos/mejores-auriculares-bluetooth-anc-2026.html#p2"
+    },
+    {
+      "id": "jbl-tune-770nc",
+      "title": "JBL Tune 770NC",
+      "affiliate_url": "https://amzn.to/46hcVFj",
+      "image_url": "https://www.jbl.es/dw/image/v2/BFND_PRD/on/demandware.static/-/Sites-masterCatalog_Harman/default/dwf9d55eb9/lifestyle/ls-tune770-d.png?sfrm=png&sh=900&sm=fit&sw=900",
+      "image_source_url": "https://www.jbl.es/TUNE770NC.html",
+      "category": "Auriculares",
+      "best_for": "autonomía y sonido enérgico",
+      "summary": "Una opción práctica para quien quiere pasar muchos días sin cargar los auriculares y prefiere un sonido con presencia de graves.",
+      "specs": ["ANC adaptativa", "44 h con ANC", "Bluetooth 5.3", "232 g"],
+      "pros": ["Autonomía excelente", "Conexión multipunto", "Diseño plegable y relativamente ligero"],
+      "considerations": ["Sonido con énfasis en graves", "La cancelación no alcanza el nivel premium"],
+      "guide_path": "articulos/mejores-auriculares-bluetooth-anc-2026.html#p3"
+    },
+    {
+      "id": "sennheiser-momentum-4",
+      "title": "Sennheiser MOMENTUM 4 Wireless",
+      "affiliate_url": "https://amzn.to/3Sa2ZKx",
+      "image_url": "https://eu.sennheiser-hearing.com/cdn/shop/files/56876382454141desktop_image.jpg?v=1765353748",
+      "image_source_url": "https://eu.sennheiser-hearing.com/products/momentum-4-wireless",
+      "category": "Auriculares",
+      "best_for": "sonido y autonomía premium",
+      "summary": "Pensados para quien prioriza la calidad de escucha, la batería y los códecs por encima de tener la cancelación más agresiva.",
+      "specs": ["ANC adaptativa", "Hasta 60 h con ANC", "aptX Adaptive", "Drivers de 42 mm"],
+      "pros": ["Autonomía sobresaliente", "Sonido detallado y personalizable", "Compatibilidad con aptX Adaptive"],
+      "considerations": ["Los controles táctiles requieren adaptación", "Sony sigue por delante en aislamiento extremo"],
+      "guide_path": "articulos/mejores-auriculares-bluetooth-anc-2026.html#p4"
+    },
+    {
+      "id": "sony-wh-1000xm5",
+      "title": "Sony WH-1000XM5",
+      "affiliate_url": "https://amzn.to/4wOCyID",
+      "image_url": "https://www.sony.es/image/1faff1a8d2f9b518cb2ef53f2c1d5af3?fmt=png-alpha&wid=1200",
+      "image_source_url": "https://www.sony.es/electronics/diadema/wh-1000xm5",
+      "category": "Auriculares",
+      "best_for": "cancelación, viajes y llamadas",
+      "summary": "La alternativa premium más completa de la selección para quien busca aislamiento, buenos micrófonos y una experiencia cuidada.",
+      "specs": ["Noise Cancelling avanzada", "30 h con NC", "LDAC", "250 g"],
+      "pros": ["Cancelación de ruido de referencia", "Micrófonos sólidos para llamadas", "Buen procesamiento y compatibilidad LDAC"],
+      "considerations": ["No se pliegan", "Normalmente exigen un presupuesto superior"],
+      "guide_path": "articulos/mejores-auriculares-bluetooth-anc-2026.html#p5"
+    }
+  ],
+  "articles": [
+    {
+      "slug": "auriculares-para-teletrabajar-y-estudiar-2026",
+      "title": "Auriculares para teletrabajar y estudiar: 3 opciones con ANC en 2026",
+      "description": "Comparamos Soundcore Q30, Sony WH-CH720N y Sony WH-1000XM5 para trabajar, estudiar y hacer videollamadas con menos distracciones.",
+      "kicker": "Trabajo y estudio",
+      "lead": "Para trabajar o estudiar durante horas importan más la comodidad, la conexión estable y unos controles sencillos que una lista interminable de funciones.",
+      "product_ids": ["sony-wh-ch720n", "soundcore-q30", "sony-wh-1000xm5"],
+      "introduction": [
+        "La cancelación activa puede reducir ruido constante de ventilación, tráfico o conversaciones lejanas, pero no elimina todas las distracciones. Conviene combinarla con un ajuste cómodo y un volumen moderado.",
+        "Hemos escogido tres niveles distintos: una alternativa especialmente ligera, una opción equilibrada para gastar menos y un modelo premium con mejores micrófonos y aislamiento."
+      ],
+      "checklist": [
+        "Peso y presión de la diadema si vas a utilizarlos varias horas seguidas.",
+        "Conexión multipunto para alternar entre ordenador y teléfono.",
+        "Micrófonos adecuados si haces videollamadas con frecuencia.",
+        "Posibilidad de usar cable cuando la batería se agota o el equipo no tiene Bluetooth."
+      ],
+      "verdict": [
+        "Elegiríamos los Sony WH-CH720N para muchas horas de trabajo por su poco peso. Los Soundcore Q30 encajan mejor si el presupuesto manda y quieres conservar ANC y autonomía.",
+        "Los WH-1000XM5 tienen sentido para quien viaja, llama mucho o necesita un aislamiento superior; para estudiar en casa, las alternativas medias suelen ser suficientes."
+      ]
+    },
+    {
+      "slug": "auriculares-con-cancelacion-para-viajar-2026",
+      "title": "Auriculares con cancelación para viajar: qué elegir en 2026",
+      "description": "Tres auriculares con ANC para tren, avión y desplazamientos: Sony WH-1000XM5, Sennheiser MOMENTUM 4 y Sony WH-CH720N.",
+      "kicker": "Guía para viajar",
+      "lead": "En un viaje largo, la cancelación ayuda, pero la autonomía, el peso y el espacio que ocupan en la mochila pueden ser igual de importantes.",
+      "product_ids": ["sony-wh-1000xm5", "sennheiser-momentum-4", "sony-wh-ch720n"],
+      "introduction": [
+        "El ruido grave y continuo de motores es el escenario donde la cancelación activa suele resultar más útil. Aun así, ningún modelo sustituye una protección auditiva y conviene mantener un volumen prudente.",
+        "Nuestra selección separa tres prioridades: máximo aislamiento, batería extraordinaria o comodidad ligera con un coste más contenido."
+      ],
+      "checklist": [
+        "Autonomía suficiente para ida, vuelta y posibles retrasos.",
+        "Estuche, plegado y resistencia del conjunto dentro del equipaje.",
+        "Modo ambiente para escuchar avisos sin quitarte los auriculares.",
+        "Conexión por cable para pantallas de avión u otros equipos antiguos."
+      ],
+      "verdict": [
+        "Los Sony WH-1000XM5 son nuestra elección cuando el aislamiento es la prioridad. Los MOMENTUM 4 resultan especialmente interesantes si buscas sonido y batería para trayectos muy largos.",
+        "Los WH-CH720N son la alternativa razonable cuando el peso y el presupuesto importan más que alcanzar el máximo nivel de cancelación."
+      ]
+    },
+    {
+      "slug": "auriculares-bluetooth-con-mas-bateria-2026",
+      "title": "Auriculares Bluetooth con mucha batería: 3 alternativas en 2026",
+      "description": "Comparamos JBL Tune 770NC, Sennheiser MOMENTUM 4 y Soundcore Q30 para quienes priorizan autonomía y menos recargas.",
+      "kicker": "Autonomía",
+      "lead": "Una batería larga reduce la ansiedad de carga, pero conviene valorar las horas anunciadas con ANC y no solo la cifra máxima sin cancelación.",
+      "product_ids": ["sennheiser-momentum-4", "jbl-tune-770nc", "soundcore-q30"],
+      "introduction": [
+        "Las cifras de autonomía dependen del volumen, los códecs, la calidad de la conexión y el uso de cancelación. Por eso comparamos el perfil completo y no proclamamos un ganador por una única cifra.",
+        "Estas tres opciones cubren una gama premium centrada en sonido, un modelo de gran duración con carácter enérgico y una alternativa de buena relación calidad-precio."
+      ],
+      "checklist": [
+        "Diferencia entre autonomía con ANC activada y desactivada.",
+        "Carga rápida disponible para recuperar varias horas en pocos minutos.",
+        "Uso por cable cuando no queda batería.",
+        "Peso y comodidad: una batería grande no compensa un ajuste incómodo."
+      ],
+      "verdict": [
+        "Los MOMENTUM 4 son la opción más completa si quieres batería y sonido premium. Los JBL Tune 770NC destacan si prefieres autonomía y un perfil con graves más presentes.",
+        "Los Soundcore Q30 mantienen una propuesta muy competitiva para quien quiere gastar menos sin cargar cada poco tiempo."
+      ]
+    },
+    {
+      "slug": "soundcore-q30-vs-sony-wh-ch720n",
+      "title": "Soundcore Q30 vs Sony WH-CH720N: cuál encaja mejor",
+      "description": "Comparación clara entre Soundcore Q30 y Sony WH-CH720N: comodidad, batería, cancelación, conectividad y tipo de usuario.",
+      "kicker": "Comparativa directa",
+      "lead": "Los dos modelos buscan ofrecer cancelación y buena autonomía sin entrar en la gama premium, pero priorizan aspectos diferentes.",
+      "product_ids": ["soundcore-q30", "sony-wh-ch720n"],
+      "introduction": [
+        "Los Q30 atraen por la cantidad de funciones y la duración de batería. Los CH720N responden con un peso notablemente menor y una experiencia muy sencilla dentro del ecosistema de Sony.",
+        "No elegimos por un descuento puntual: la decisión depende de cuántas horas los usarás, si necesitas cable y qué importancia das a la ligereza."
+      ],
+      "checklist": [
+        "Los Sony son considerablemente más ligeros para sesiones largas.",
+        "Los Soundcore permiten Bluetooth y conexión AUX y ofrecen mucha autonomía.",
+        "Ambos admiten ajustes mediante aplicación y conexión multipunto.",
+        "Para llamadas frecuentes conviene probar el micrófono en tu entorno real."
+      ],
+      "verdict": [
+        "Escogeríamos Soundcore Q30 para maximizar funciones y autonomía con presupuesto controlado. Elegiríamos Sony WH-CH720N si la comodidad y el poco peso son prioritarios.",
+        "Antes de comprar, compara el precio real del día y las condiciones de devolución: una diferencia pequeña puede inclinar la balanza."
+      ]
+    },
+    {
+      "slug": "jbl-tune-770nc-vs-sony-wh-ch720n",
+      "title": "JBL Tune 770NC vs Sony WH-CH720N: autonomía o ligereza",
+      "description": "JBL Tune 770NC frente a Sony WH-CH720N: comparamos batería, peso, sonido, cancelación y comodidad para ayudarte a elegir.",
+      "kicker": "Comparativa directa",
+      "lead": "JBL pone el acento en autonomía y graves; Sony, en ligereza y facilidad de uso. La mejor compra cambia según tu rutina.",
+      "product_ids": ["jbl-tune-770nc", "sony-wh-ch720n"],
+      "introduction": [
+        "Los Tune 770NC resultan atractivos para quien no quiere pensar en el cargador y disfruta de un sonido con energía. Los WH-CH720N reducen peso para mejorar la comodidad diaria.",
+        "Ambos incorporan cancelación activa y conexión multipunto, por lo que la decisión se concentra en autonomía, ajuste y preferencias de sonido."
+      ],
+      "checklist": [
+        "JBL ofrece una autonomía especialmente larga y diseño plegable.",
+        "Sony pesa menos y puede resultar más cómodo durante muchas horas.",
+        "El perfil JBL enfatiza más los graves; ambos permiten ecualización por app.",
+        "La eficacia de la cancelación depende también del sellado sobre tus orejas."
+      ],
+      "verdict": [
+        "Elegiríamos JBL Tune 770NC para viajes y semanas con pocas recargas. Preferiríamos Sony WH-CH720N para teletrabajo, estudio y uso diario prolongado.",
+        "Ninguno es automáticamente mejor: revisa el precio actual y escoge la prioridad que notarás todos los días."
+      ]
+    },
+    {
+      "slug": "auriculares-premium-sonido-o-cancelacion-2026",
+      "title": "Auriculares premium en 2026: mejor sonido o mejor cancelación",
+      "description": "Sennheiser MOMENTUM 4 frente a Sony WH-1000XM5: analizamos sonido, batería, ANC y llamadas según tus prioridades.",
+      "kicker": "Gama premium",
+      "lead": "En la gama alta no siempre gana el mismo modelo: Sennheiser destaca por sonido y batería, mientras Sony prioriza aislamiento y llamadas.",
+      "product_ids": ["sennheiser-momentum-4", "sony-wh-1000xm5"],
+      "introduction": [
+        "Pagar más solo compensa cuando las mejoras coinciden con tu uso. Un viajero frecuente puede valorar más la cancelación, mientras una persona centrada en música puede preferir autonomía y códecs.",
+        "Esta comparación evita una clasificación absoluta y separa los escenarios en los que cada alternativa aporta una ventaja reconocible."
+      ],
+      "checklist": [
+        "Sony prioriza aislamiento y calidad de llamada en ambientes difíciles.",
+        "Sennheiser ofrece una autonomía sobresaliente y aptX Adaptive.",
+        "Los controles, la aplicación y el ajuste personal pueden decidir más que una especificación.",
+        "Compara siempre la diferencia de precio real, no el porcentaje promocional."
+      ],
+      "verdict": [
+        "Escogeríamos MOMENTUM 4 para escuchar música durante muchas horas y reducir recargas. Elegiríamos WH-1000XM5 para avión, oficina ruidosa y llamadas frecuentes.",
+        "Si ninguna de esas ventajas es esencial, una opción de gama media puede ofrecer una relación coste-utilidad más racional."
+      ]
+    }
+  ]
+}

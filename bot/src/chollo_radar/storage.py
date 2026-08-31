@@ -21,6 +21,8 @@ def _utc_now() -> datetime:
 class StorageBackend(Protocol):
     def close(self) -> None: ...
 
+    def ensure_product(self, offer: Offer) -> None: ...
+
     def observe(self, offer: Offer) -> None: ...
 
     def recently_published(self, offer_key: str, cooldown_hours: int) -> bool: ...
@@ -107,6 +109,10 @@ class Storage:
         # El feed demo no necesita persistir catálogo ni histórico de precios.
         return None
 
+    def ensure_product(self, offer: Offer) -> None:
+        # SQLite solo conserva publicaciones; no mantiene un catálogo separado.
+        return None
+
     def recently_published(self, offer_key: str, cooldown_hours: int) -> bool:
         cutoff = _utc_now() - timedelta(hours=cooldown_hours)
         row = self.connection.execute(
@@ -140,7 +146,7 @@ class Storage:
                 offer.provider,
                 channel,
                 score,
-                offer.current_price,
+                offer.current_price if offer.current_price > 0 else None,
                 message,
                 external_message_id or None,
                 _utc_now().isoformat(),
@@ -308,7 +314,7 @@ class SupabaseStorage:
             self._product_ids[offer_key] = product_id
         return product_id
 
-    def observe(self, offer: Offer) -> None:
+    def ensure_product(self, offer: Offer) -> None:
         rows = self.client.request(
             "POST",
             "products",
@@ -328,6 +334,12 @@ class SupabaseStorage:
             raise RuntimeError("Supabase no devolvió el producto guardado")
         product_id = str(rows[0]["id"])
         self._product_ids[offer.key] = product_id
+
+    def observe(self, offer: Offer) -> None:
+        self.ensure_product(offer)
+        product_id = self._product_id_for_key(offer.key)
+        if not product_id:
+            raise RuntimeError("No se puede guardar el precio sin producto")
         self.client.request(
             "POST",
             "price_observations",
@@ -376,7 +388,7 @@ class SupabaseStorage:
                 "product_id": product_id,
                 "channel": channel,
                 "score": score,
-                "price": offer.current_price,
+                "price": offer.current_price if offer.current_price > 0 else None,
                 "message": message,
                 "external_message_id": external_message_id or None,
                 "published_at": _utc_now().isoformat(),
