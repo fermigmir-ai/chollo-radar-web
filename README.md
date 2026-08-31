@@ -8,8 +8,9 @@ Web oficial y bot automático de ofertas de Chollo Radar.
 - Supabase conserva el catálogo, el histórico de precios, la deduplicación y
   los resultados de cada ejecución.
 - Mientras se alcanzan las 10 ventas exigidas por Amazon, la campaña puente
-  publica guías SEO y recomendaciones con enlaces afiliados ya autorizados.
+  publica guías SEO y recomendaciones con enlaces afiliados ya autorizados en
+  Telegram y, cuando se configuren sus credenciales, también en X.
 
-La automatización empieza desactivada y en modo de prueba. Consulta
-[`bot/README.md`](bot/README.md) para configurar las credenciales de Amazon
-Creators API, Telegram y Supabase antes de habilitar publicaciones reales.
+La campaña puente queda programada; la fase de Amazon permanece desactivada
+hasta disponer de Creators API. Consulta [`bot/README.md`](bot/README.md) para
+configurar Telegram, X, Supabase y, más adelante, las credenciales de Amazon.

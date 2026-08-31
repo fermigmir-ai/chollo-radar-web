@@ -1,7 +1,7 @@
 # Chollo Radar Bot
 
 Bot modular para detectar ofertas, puntuarlas y publicarlas automáticamente en
-Telegram con enlaces de afiliado. La primera integración real está preparada
+Telegram y X con enlaces de afiliado. La primera integración real está preparada
 para Amazon España mediante **Amazon Creators API**.
 
 > Un bot no garantiza ingresos. Automatiza la búsqueda y la publicación; el
@@ -17,6 +17,7 @@ para Amazon España mediante **Amazon Creators API**.
 - Evita repetir un producto durante el periodo configurado.
 - Limita el número de publicaciones por ejecución para no saturar el canal.
 - Publica foto, precio, descuento, enlace y aviso de afiliación en Telegram.
+- Adapta cada recomendación a un mensaje de hasta 280 caracteres para X.
 - Funciona en modo demostración sin claves y de forma programada sin depender
   de un ordenador encendido.
 - Comparte catálogo, histórico, deduplicación y registro de ejecuciones en
@@ -50,7 +51,7 @@ La campaña:
 
 - genera una guía editorial nueva cada 48 horas hasta completar el calendario;
 - añade automáticamente cada guía a la portada y al sitemap;
-- rota dos recomendaciones diarias en Telegram;
+- rota dos recomendaciones diarias en Telegram y, si está configurado, en X;
 - evita repetir un producto durante 72 horas mediante Supabase;
 - nunca copia precios ni porcentajes no verificados;
 - identifica todos los enlaces remunerados con `#ad` y el aviso de afiliación;
@@ -129,6 +130,37 @@ Comprueba la conexión:
 chollo-radar test-telegram
 ```
 
+## Activar X directamente
+
+X es opcional: si no está configurado, Telegram y la web siguen funcionando.
+La conexión utiliza la API oficial de X con OAuth 1.0a, sin Metricool ni otros
+intermediarios.
+
+1. Crea la cuenta de X de Chollo Radar.
+2. En `console.x.com`, crea un proyecto y una aplicación con permiso de lectura
+   y escritura.
+3. Genera la API Key y Secret, y el Access Token y Secret de la propia cuenta.
+4. Guarda las cuatro credenciales como secretos del entorno de GitHub
+   `chollo-radar-production`:
+
+```dotenv
+X_API_KEY=...
+X_API_SECRET=...
+X_ACCESS_TOKEN=...
+X_ACCESS_TOKEN_SECRET=...
+```
+
+No las pegues en el chat ni en archivos versionados. Para verificar la conexión
+desde un entorno seguro:
+
+```bash
+chollo-radar test-x
+```
+
+La API de X usa actualmente precios por consumo. Consulta el coste vigente en
+el panel de X antes de activarla; una publicación con URL puede tener un coste
+superior a una publicación sin enlace.
+
 ## Activar Amazon Creators API
 
 Completa `.env` sin subir nunca este archivo a un repositorio:
@@ -171,6 +203,10 @@ Crea en GitHub el entorno `chollo-radar-production` y añade estos secretos:
 | `AMAZON_PARTNER_TAG` | Etiqueta de Afiliados para Amazon España |
 | `TELEGRAM_BOT_TOKEN` | Token entregado por BotFather |
 | `TELEGRAM_CHAT_ID` | Canal, por ejemplo `@cholloradar` |
+| `X_API_KEY` | API Key de la aplicación de X (opcional) |
+| `X_API_SECRET` | API Secret de la aplicación de X (opcional) |
+| `X_ACCESS_TOKEN` | Token de la cuenta de Chollo Radar en X (opcional) |
+| `X_ACCESS_TOKEN_SECRET` | Secreto del token de la cuenta de X (opcional) |
 
 No pegues estas credenciales en archivos, commits, incidencias ni mensajes.
 
@@ -216,6 +252,7 @@ de cada ejecución.
 - `chollo-radar run`: ejecuta ciclos de forma continua.
 - `chollo-radar status`: muestra estado y últimas publicaciones.
 - `chollo-radar test-telegram`: manda un mensaje de prueba.
+- `chollo-radar test-x`: publica un mensaje de prueba en X.
 - `chollo-radar check-config`: valida la configuración.
 - `chollo-radar bootstrap --site-root ..`: ejecuta la campaña previa a
   Creators API.
